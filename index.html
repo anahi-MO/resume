@@ -319,8 +319,7 @@
     .lang-row { padding: 2px 0; }
     .lang-row.muted { opacity: 1 !important; }
     .lang-name, .lang-btn { color: #111 !important; opacity: 1 !important; font-size: 10.5px; }
-    .meter i { width: 6px; height: 6px; background: #cfcfcf !important; }
-    .meter i.on { background: #777 !important; }
+    .meter { display: none !important; }   /* level is already in the text label; dots are CSS backgrounds that may not print */
     .grid { gap: 8px; }
     .block { background: #fff !important; border: 1px solid #ddd !important; padding: 8px 10px; }
     .block h4 { font-size: 12px; color: #111 !important; }
@@ -355,7 +354,7 @@
     <div class="links reveal d3">
       <a href="mailto:soyanahiruiz@gmail.com">✉ soyanahiruiz@gmail.com</a>
       <a href="https://www.linkedin.com/in/anahiruiz/" target="_blank" rel="noopener">in/ LinkedIn</a>
-      <a href="#experience" data-i18n="hero.fullcv" onclick="event.preventDefault();document.getElementById('experience').scrollIntoView();">⤓ Full résumé</a>
+      <a href="#experience" data-i18n="hero.fullcv" onclick="event.preventDefault();document.getElementById('experience').scrollIntoView();">↓ See résumé</a>
     </div>
   </div>
   <div class="scrollcue" data-i18n="hero.scroll">Scroll to explore ↓</div>
@@ -633,7 +632,7 @@
     "hero.loc": "Guadalajara, Jalisco · México",
     "hero.bio": "Más de 13 años obsesionada con los clientes — ahora lo convierto en decisiones de producto. Mapeo los recorridos de usuario, encuentro dónde abandonan y uso datos (y mucha IA) para mejorar el producto.",
     "hero.scroll": "Desplázate para explorar ↓",
-    "hero.fullcv": "⤓ CV completo",
+    "hero.fullcv": "↓ Ver CV",
     "moh.eye": "Ahora · Feb 2025 — Presente",
     "moh.h2": "Project Manager → Analítica de Producto y CX",
     "moh.b1": "Construí el <strong>primer panel de KPIs de analítica de producto</strong> en PostHog — Crecimiento, Activación, Engagement y Retención — una sola fuente de verdad.",
