@@ -98,20 +98,17 @@
   .note:nth-child(5){ left: 80%; color: var(--accent);   animation-delay: .35s; font-size: 36px; }
   @keyframes dance { 0%,100%{ transform: translateY(0) rotate(-8deg); } 50%{ transform: translateY(-34px) rotate(8deg); } }
 
-  /* CHAT BUBBLES — contained, rising column (fixed) */
-  .bubbles { position: relative; width: 100%; max-width: 280px; height: 240px; margin: 0 auto; overflow: hidden; }
-  .bubble { position: absolute; left: 50%; bottom: 6px; transform: translate(-50%, 0); padding: 9px 15px; border-radius: 16px; font-size: 14px; background: var(--panel); border: 1px solid var(--line); color: var(--ink); white-space: nowrap; opacity: 0; }
-  .stage.in .bubble { animation: rise 5s ease-in infinite; }
-  .bubble:nth-child(1){ animation-delay: 0s;    border-color: var(--accent); }
-  .bubble:nth-child(2){ animation-delay: 1.25s; border-color: var(--accent-2); }
-  .bubble:nth-child(3){ animation-delay: 2.5s; }
-  .bubble:nth-child(4){ animation-delay: 3.75s; border-color: var(--accent); }
-  @keyframes rise {
-    0%   { opacity: 0; transform: translate(-50%, 10px) scale(.92); }
-    10%  { opacity: 1; transform: translate(-50%, -30px) scale(1); }
-    80%  { opacity: 1; transform: translate(-50%, -180px); }
-    100% { opacity: 0; transform: translate(-50%, -220px); }
-  }
+  /* CX CHAT — messages appear in sequence and stay readable */
+  .chatui { width: 100%; max-width: 300px; margin: 0 auto; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 16px 40px rgba(0,0,0,.35); }
+  .msg { max-width: 82%; padding: 9px 13px; border-radius: 14px; font-size: 13.5px; line-height: 1.4; opacity: 0; transform: translateY(8px); }
+  .stage.in .msg { animation: msgIn .5s ease forwards; }
+  .msg.them { align-self: flex-start; background: var(--panel-hi); border: 1px solid var(--line); color: var(--ink); border-bottom-left-radius: 4px; }
+  .msg.me { align-self: flex-end; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #1a0f0c; font-weight: 500; border-bottom-right-radius: 4px; }
+  .msg:nth-child(1){ animation-delay: .2s; }
+  .msg:nth-child(2){ animation-delay: .9s; }
+  .msg:nth-child(3){ animation-delay: 1.6s; }
+  .msg:nth-child(4){ animation-delay: 2.3s; }
+  @keyframes msgIn { to { opacity: 1; transform: none; } }
 
   /* TERMINAL */
   .term { width: 100%; max-width: 380px; background: #0c0a09; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,.4); }
@@ -172,7 +169,8 @@
 
   @media (prefers-reduced-motion: reduce) {
     .reveal { opacity: 1 !important; transform: none !important; }
-    .note, .bubble, .scrollcue, .wave { animation: none !important; }
+    .note, .msg, .scrollcue, .wave { animation: none !important; }
+    .msg { opacity: 1 !important; transform: none !important; }
   }
 
   /* ============ PRINT: clean, readable, v1-style document ============ */
@@ -295,11 +293,11 @@
       </ul>
     </div>
     <div class="anim-box reveal d2">
-      <div class="bubbles" aria-hidden="true">
-        <div class="bubble" data-i18n="bub.1">Thank you! 💛</div>
-        <div class="bubble" data-i18n="bub.2">Issue resolved ✓</div>
-        <div class="bubble" data-i18n="bub.3">Customer retained</div>
-        <div class="bubble" data-i18n="bub.4">5★ experience</div>
+      <div class="chatui" aria-hidden="true">
+        <div class="msg them" data-i18n="bub.1">Hi, I have an issue 😟</div>
+        <div class="msg me" data-i18n="bub.2">On it — let's fix this 💛</div>
+        <div class="msg them" data-i18n="bub.3">Resolved — thank you!</div>
+        <div class="msg me" data-i18n="bub.4">Customer retained ✓ 5★</div>
       </div>
     </div>
   </div></div>
@@ -447,7 +445,7 @@
     "free.h2": "Consultora Independiente — CX y Retención",
     "free.b1": "Diseñé <strong>estrategias de servicio al cliente y retención</strong> para empresas de la industria cultural.",
     "free.b2": "Capacité a gerentes y personal de primera línea en feedback y desescalada.",
-    "bub.1": "¡Gracias! 💛", "bub.2": "Resuelto ✓", "bub.3": "Cliente retenido", "bub.4": "Experiencia 5★",
+    "bub.1": "Hola, tengo un problema 😟", "bub.2": "Enseguida — lo resolvemos 💛", "bub.3": "¡Resuelto, gracias!", "bub.4": "Cliente retenido ✓ 5★",
     "yam.h2": "Coordinadora y Gerente",
     "yam.b1": "Ascendí de recepción a gerente; lideré equipos de <strong>hasta 15 personas</strong>.",
     "yam.b2": "Automaticé procesos con CRMs para operar de forma independiente de la propiedad.",
