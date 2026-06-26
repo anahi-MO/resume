@@ -199,6 +199,8 @@
   .quickform button { background: var(--panel-hi); border: 1px solid var(--accent); color: var(--head); font-weight: 600; padding: 12px; border-radius: 12px; cursor: pointer; font-size: 14px; transition: background .15s, color .15s; }
   .quickform button:hover { background: var(--accent); color: #1a0f0c; }
   .form-or { color: var(--muted); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; margin-top: 22px; }
+  .totop { display: inline-block; margin-top: 30px; color: var(--muted); text-decoration: none; font-size: 13px; border: 1px solid var(--line); padding: 8px 16px; border-radius: 999px; transition: all .15s; }
+  .totop:hover { color: var(--ink); border-color: var(--accent); transform: translateY(-1px); }
 
   /* RÉSUMÉ RECAP */
   #resume { min-height: 100vh; scroll-snap-align: start; padding: clamp(40px,8vw,90px) clamp(20px,6vw,60px); }
@@ -556,6 +558,7 @@
       <textarea id="qmsg" rows="3" placeholder="Your message…" data-i18n-ph="c.msg"></textarea>
       <button type="submit" data-i18n="c.send">Send email →</button>
     </form>
+    <a class="totop reveal d3" href="#intro" data-i18n="c.top" onclick="event.preventDefault();window.scrollTo({top:0,behavior:'smooth'});">↑ Back to top</a>
     <footer>Built for the MOHARA hackathon · <span id="year"></span> · Made with too much coffee ☕</footer>
   </div>
 </section>
@@ -612,7 +615,7 @@
     "c.cta": "Quiero conversar 👋",
     "c.or": "— o —",
     "c.send": "Enviar correo →",
-    "c.name": "Tu nombre", "c.msg": "Tu mensaje…",
+    "c.name": "Tu nombre", "c.msg": "Tu mensaje…", "c.top": "↑ Volver arriba",
     "res.print": "⤓ Imprimir / PDF"
   } };
   var GREET = { en: 'Hi! Nice to meet you <span class="wave">👋</span>', es: '¡Hola! Mucho gusto <span class="wave">👋</span>' };
