@@ -228,13 +228,33 @@
   .chip { background: var(--panel); border: 1px solid var(--line); padding: 6px 13px; border-radius: 999px; font-size: 14px; color: var(--ink); transition: all .15s; }
   /* headline skills: filled pink tint so they read as a distinct group */
   .chip.key { background: rgba(244,120,155,.14); border-color: rgba(244,120,155,.5); color: #ffd9e3; font-weight: 500; }
+  .chip:hover { border-color: var(--accent); transform: translateY(-1px); }
 
   /* language switcher */
   .lang-hint { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
   .lang-btn { cursor: pointer; font: inherit; font-size: 14px; }
-  .lang-btn:hover { border-color: var(--accent); transform: translateY(-1px); }
-  .lang-btn.on { background: var(--accent); color: #1a0f0c; border-color: var(--accent); font-weight: 600; }
   .chip.muted { opacity: .6; }
+
+  /* framed reference cards (skills / education / languages) */
+  .card-sec { background: #1b1511; border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px; margin-bottom: 16px; }
+  .card-sec .sec-title { margin: 0 0 14px !important; }
+  .sec-title.ic-skills::before { content: "🛠️ "; }
+  .sec-title.ic-edu::before { content: "🎓 "; }
+  .sec-title.ic-lang::before { content: "🌐 "; }
+
+  /* languages with proficiency meters */
+  .lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 600px) { .lang-grid { grid-template-columns: 1fr; } }
+  .lang-item { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 9px 14px; transition: border-color .15s, box-shadow .15s; }
+  .lang-item:has(.lang-btn.on) { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(244,120,155,.12); }
+  .lang-name { background: transparent; border: none; padding: 0; font: inherit; font-size: 14px; color: var(--ink); text-align: left; }
+  button.lang-name { cursor: pointer; }
+  button.lang-name:hover { color: var(--head); }
+  button.lang-name.on { color: var(--accent); font-weight: 700; }
+  .lang-item.muted .lang-name { opacity: .65; }
+  .meter { display: inline-flex; gap: 4px; flex-shrink: 0; }
+  .meter i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
+  .meter i.on { background: linear-gradient(var(--accent), var(--accent-2)); }
   #greeting { text-align: center; min-height: 56px; margin-top: 26px; }
   #greeting .g { display: inline-block; font-family: "Fraunces", serif; font-size: clamp(24px, 5vw, 40px); color: var(--head); opacity: 0; }
   #greeting .g.show { animation: greetIn .8s cubic-bezier(.2,.9,.3,1.25) forwards; }
@@ -282,6 +302,12 @@
     /* chips / pills: dark text, clear border, readable */
     .chips { gap: 5px; }
     .chip { background: #fff !important; border: 1px solid #999 !important; color: #111 !important; padding: 3px 9px; font-size: 10.5px; opacity: 1 !important; }
+    .card-sec { background: transparent !important; border: none !important; padding: 0 !important; margin-bottom: 6px !important; }
+    .lang-grid { gap: 6px; }
+    .lang-item { background: #fff !important; border: 1px solid #ddd !important; padding: 5px 10px; box-shadow: none !important; }
+    .lang-name { color: #111 !important; opacity: 1 !important; font-size: 10.5px; }
+    .meter i { width: 6px; height: 6px; background: #cfcfcf !important; }
+    .meter i.on { background: #777 !important; }
     .grid { gap: 8px; }
     .block { background: #fff !important; border: 1px solid #ddd !important; padding: 8px 10px; }
     .block h4 { font-size: 12px; color: #111 !important; }
@@ -507,38 +533,56 @@
 <!-- ACT 3: FULL RÉSUMÉ -->
 <section id="resume" data-dot="Résumé">
   <div class="inner">
-    <div class="sec-title" data-i18n="res.work">What I work with</div>
-    <div class="chips">
-      <span class="chip key" data-i18n="sk.analytics">Product Analytics</span>
-      <span class="chip key" data-i18n="sk.journey">User-Journey Mapping</span>
-      <span class="chip key" data-i18n="sk.funnel">Funnel &amp; Retention Analysis</span>
-      <span class="chip key">PostHog</span>
-      <span class="chip key">Intercom</span>
-      <span class="chip key" data-i18n="sk.ai">Claude Code &amp; AI tools</span>
-      <span class="chip" data-i18n="sk.pm">Project Management</span>
-      <span class="chip" data-i18n="sk.stake">Stakeholder Management</span>
-      <span class="chip" data-i18n="sk.cx">CX &amp; Retention Strategy</span>
-      <span class="chip">Jira</span><span class="chip">Asana</span><span class="chip">Trello</span>
-      <span class="chip">Zoho</span><span class="chip">Stripe</span>
-      <span class="chip">Google &amp; MS Office</span>
-      <span class="chip">Adobe Illustrator / InDesign</span>
+    <div class="card-sec">
+      <div class="sec-title ic-skills" data-i18n="res.work">What I work with</div>
+      <div class="chips">
+        <span class="chip key" data-i18n="sk.analytics">Product Analytics</span>
+        <span class="chip key" data-i18n="sk.journey">User-Journey Mapping</span>
+        <span class="chip key" data-i18n="sk.funnel">Funnel &amp; Retention Analysis</span>
+        <span class="chip key">PostHog</span>
+        <span class="chip key">Intercom</span>
+        <span class="chip key" data-i18n="sk.ai">Claude Code &amp; AI tools</span>
+        <span class="chip" data-i18n="sk.pm">Project Management</span>
+        <span class="chip" data-i18n="sk.stake">Stakeholder Management</span>
+        <span class="chip" data-i18n="sk.cx">CX &amp; Retention Strategy</span>
+        <span class="chip">Jira</span><span class="chip">Asana</span><span class="chip">Trello</span>
+        <span class="chip">Zoho</span><span class="chip">Stripe</span>
+        <span class="chip">Google &amp; MS Office</span>
+        <span class="chip">Adobe Illustrator / InDesign</span>
+      </div>
     </div>
 
-    <div class="sec-title" data-i18n="res.edu">Education</div>
-    <div class="grid">
-      <div class="block"><h4>Google Project Management Certificate</h4><div class="sub">Coursera</div><div class="meta" data-i18n="edu.ongoing">Ongoing</div></div>
-      <div class="block"><h4 data-i18n="edu.ba">B.A. International Relations</h4><div class="sub">Universidad de Guadalajara</div><div class="meta" data-i18n="edu.bameta">2020 · North America, Asia-Pacific economics, Anglosphere politics</div></div>
+    <div class="card-sec">
+      <div class="sec-title ic-edu" data-i18n="res.edu">Education</div>
+      <div class="grid">
+        <div class="block"><h4>Google Project Management Certificate</h4><div class="sub">Coursera</div><div class="meta" data-i18n="edu.ongoing">Ongoing</div></div>
+        <div class="block"><h4 data-i18n="edu.ba">B.A. International Relations</h4><div class="sub">Universidad de Guadalajara</div><div class="meta" data-i18n="edu.bameta">2020 · North America, Asia-Pacific economics, Anglosphere politics</div></div>
+      </div>
     </div>
 
-    <div class="sec-title" data-i18n="res.lang">Languages</div>
-    <div class="lang-hint" data-i18n="lang.hint">Tap Spanish or English to switch the whole page →</div>
-    <div class="chips">
-      <button class="chip lang-btn" data-lang="es" data-i18n="lang.es">🇲🇽 Spanish — Native</button>
-      <button class="chip lang-btn on" data-lang="en" data-i18n="lang.en">🇬🇧 English — Advanced</button>
-      <span class="chip muted" data-i18n="lang.fr">🇫🇷 French — Beginner</span>
-      <span class="chip muted" data-i18n="lang.de">🇩🇪 German — Beginner</span>
+    <div class="card-sec">
+      <div class="sec-title ic-lang" data-i18n="res.lang">Languages</div>
+      <div class="lang-hint" data-i18n="lang.hint">Tap Spanish or English to switch the whole page →</div>
+      <div class="lang-grid">
+        <div class="lang-item">
+          <button class="lang-name lang-btn" data-lang="es" data-i18n="lang.es">🇲🇽 Spanish — Native</button>
+          <span class="meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span>
+        </div>
+        <div class="lang-item">
+          <button class="lang-name lang-btn on" data-lang="en" data-i18n="lang.en">🇬🇧 English — Advanced</button>
+          <span class="meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span>
+        </div>
+        <div class="lang-item muted">
+          <span class="lang-name" data-i18n="lang.fr">🇫🇷 French — Beginner</span>
+          <span class="meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span>
+        </div>
+        <div class="lang-item muted">
+          <span class="lang-name" data-i18n="lang.de">🇩🇪 German — Beginner</span>
+          <span class="meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span>
+        </div>
+      </div>
+      <div id="greeting" aria-live="polite"></div>
     </div>
-    <div id="greeting" aria-live="polite"></div>
 
     <div class="links" style="justify-content:flex-start; margin-top:30px;">
       <a href="mailto:soyanahiruiz@gmail.com">✉ soyanahiruiz@gmail.com</a>
