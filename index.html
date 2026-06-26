@@ -146,6 +146,20 @@
   @keyframes blink { 50%{ opacity: 0; } }
   .ai-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
 
+  /* ===== CONTACT CTA ===== */
+  .cta { display: inline-block; margin-top: 26px; background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #1a0f0c; font-weight: 600; text-decoration: none; padding: 15px 30px; border-radius: 999px; font-size: 16px;
+    transition: transform .15s, box-shadow .15s; box-shadow: 0 12px 32px rgba(244,120,155,.28); }
+  .cta:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(244,120,155,.38); }
+  .quickform { margin-top: 28px; width: 100%; max-width: 430px; display: flex; flex-direction: column; gap: 10px; text-align: left; }
+  .quickform input, .quickform textarea { background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 14px; color: var(--ink); font-family: inherit; font-size: 14px; resize: vertical; width: 100%; }
+  .quickform input:focus, .quickform textarea:focus { outline: none; border-color: var(--accent); }
+  .quickform button { background: var(--panel-hi); border: 1px solid var(--accent); color: var(--head); font-weight: 600;
+    padding: 12px; border-radius: 12px; cursor: pointer; font-size: 14px; transition: background .15s, color .15s; }
+  .quickform button:hover { background: var(--accent); color: #1a0f0c; }
+  .form-or { color: var(--muted); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; margin-top: 22px; }
+
   /* ===== chips (shared) ===== */
   .chips { display: flex; flex-wrap: wrap; gap: 8px; }
   .chip { background: var(--panel); border: 1px solid var(--line); padding: 6px 13px; border-radius: 999px; font-size: 14px; color: var(--ink); transition: all .15s; }
@@ -236,36 +250,6 @@
   </div>
 </section>
 
-<!-- AI -->
-<section class="stage" data-dot="AI">
-  <div class="inner">
-    <div class="split two">
-      <div>
-        <div class="eyebrow reveal">How I work</div>
-        <h2 class="reveal d1">I build with AI</h2>
-        <p class="reveal d2" style="color:var(--ink); margin-top:14px;">
-          I use <strong style="color:var(--head)">Claude Code</strong> and other AI tools daily — to ship faster,
-          analyze data, prototype ideas, and automate the busywork. AI is part of how I get from
-          question to answer.
-        </p>
-        <div class="ai-tools reveal d3">
-          <span class="chip key">Claude Code</span>
-          <span class="chip">Claude</span>
-          <span class="chip">ChatGPT</span>
-          <span class="chip">AI-assisted analytics</span>
-          <span class="chip">Prompting &amp; automation</span>
-        </div>
-      </div>
-      <div class="anim-box reveal d2">
-        <div class="term" aria-hidden="true">
-          <div class="term-bar"><i></i><i></i><i></i></div>
-          <div class="term-body"><span id="typed"></span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- PROPIO -->
 <section class="stage" data-dot="Propio">
   <div class="inner">
@@ -344,6 +328,36 @@
   </div>
 </section>
 
+<!-- HOW I WORK / AI (after the full career walk) -->
+<section class="stage" data-dot="How I work">
+  <div class="inner">
+    <div class="split two">
+      <div>
+        <div class="eyebrow reveal">How I work</div>
+        <h2 class="reveal d1">I build with AI</h2>
+        <p class="reveal d2" style="color:var(--ink); margin-top:14px;">
+          I use <strong style="color:var(--head)">Claude Code</strong> and other AI tools daily — to ship faster,
+          analyze data, prototype ideas, and automate the busywork. AI is part of how I get from
+          question to answer.
+        </p>
+        <div class="ai-tools reveal d3">
+          <span class="chip key">Claude Code</span>
+          <span class="chip">Claude</span>
+          <span class="chip">ChatGPT</span>
+          <span class="chip">AI-assisted analytics</span>
+          <span class="chip">Prompting &amp; automation</span>
+        </div>
+      </div>
+      <div class="anim-box reveal d2">
+        <div class="term" aria-hidden="true">
+          <div class="term-bar"><i></i><i></i><i></i></div>
+          <div class="term-body"><span id="typed"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== ACT 3: FULL RÉSUMÉ ===================== -->
 <section id="resume" data-dot="Résumé">
   <div class="inner">
@@ -390,6 +404,26 @@
       <a href="https://www.linkedin.com/in/anahiruiz/" target="_blank" rel="noopener">in/ LinkedIn</a>
       <a href="#" onclick="window.print();return false;">⤓ Print / PDF</a>
     </div>
+
+  </div>
+</section>
+
+<!-- ===================== ACT 4: LET'S CHAT ===================== -->
+<section class="stage" id="contact" data-dot="Let's chat">
+  <div class="inner" style="text-align:center; display:flex; flex-direction:column; align-items:center;">
+    <div class="eyebrow reveal">Get in touch</div>
+    <h2 class="reveal d1">Have a question, inquiry,<br/>or opportunity?</h2>
+    <p class="reveal d2" style="color:var(--ink); max-width:470px; margin-top:14px;">
+      I'd love to hear from you. Hit the button — or jot a quick note — and it lands straight in my inbox.
+    </p>
+    <a class="cta reveal d2" href="mailto:soyanahiruiz@gmail.com?subject=I%20want%20to%20chat%20%F0%9F%91%8B&body=Hi%20Anahi%2C%0A%0A">I want to chat 👋</a>
+
+    <div class="form-or reveal d3">— or —</div>
+    <form class="quickform reveal d3" id="quickform">
+      <input id="qname" type="text" placeholder="Your name" autocomplete="name" />
+      <textarea id="qmsg" rows="3" placeholder="Your message…"></textarea>
+      <button type="submit">Send email →</button>
+    </form>
 
     <footer>Built for the MOHARA hackathon · <span id="year"></span> · Made with too much coffee ☕</footer>
   </div>
@@ -467,6 +501,17 @@
       else { el.appendChild(document.createElement('br')); li++; ci = 0; setTimeout(step, 380); }
     })();
   }
+
+  // quick contact form → opens the visitor's email client, pre-filled to Anahi
+  var qf = document.getElementById('quickform');
+  if (qf) qf.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = document.getElementById('qname').value.trim();
+    var msg = document.getElementById('qmsg').value.trim();
+    var subject = encodeURIComponent('I want to chat 👋' + (name ? ' — ' + name : ''));
+    var body = encodeURIComponent((msg || '') + (name ? '\n\n— ' + name : ''));
+    window.location.href = 'mailto:soyanahiruiz@gmail.com?subject=' + subject + '&body=' + body;
+  });
 </script>
 </body>
 </html>
