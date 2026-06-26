@@ -128,7 +128,7 @@
   .ai-hint { color: var(--muted); font-size: 12px; margin-top: 12px; }
   .aichip { cursor: pointer; font: inherit; font-size: 14px; }
   .aichip:hover { border-color: var(--accent); }
-  .aichip.on { background: var(--accent); color: #1a0f0c; border-color: var(--accent); font-weight: 600; }
+  .chip.aichip.on { background: var(--accent); color: #1a0f0c; border-color: var(--accent); font-weight: 600; }
 
   /* AI demo stage — one panel shown at a time */
   .demo-stage { position: relative; width: 100%; min-height: 190px; display: flex; align-items: center; justify-content: center; }
@@ -216,9 +216,10 @@
   .block .meta { color: var(--muted); font-size: 13px; margin-top: 2px; }
 
   /* chips */
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 9px; }
   .chip { background: var(--panel); border: 1px solid var(--line); padding: 6px 13px; border-radius: 999px; font-size: 14px; color: var(--ink); transition: all .15s; }
-  .chip.key { border-color: rgba(244,120,155,.55); }
+  /* headline skills: filled pink tint so they read as a distinct group */
+  .chip.key { background: rgba(244,120,155,.14); border-color: rgba(244,120,155,.5); color: #ffd9e3; font-weight: 500; }
 
   /* language switcher */
   .lang-hint { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
