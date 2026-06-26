@@ -173,31 +173,45 @@
     .msg { opacity: 1 !important; transform: none !important; }
   }
 
-  /* ============ PRINT: clean, readable, v1-style document ============ */
+  /* ============ PRINT: compact 1–2 page document, readable chips ============ */
   @media print {
-    body { background: #fff !important; color: #111 !important; scroll-snap-type: none; }
+    @page { margin: 1.1cm; }
+    body { background: #fff !important; color: #111 !important; scroll-snap-type: none; font-size: 11px; line-height: 1.4; }
     #progress, #langbar, #dots, .scrollcue, .anim-box, #greeting, .cta, .quickform, .form-or, .lang-hint,
-    #intro::before, #intro::after { display: none !important; }
+    #intro::before, #intro::after, #resume .links, #contact, footer { display: none !important; }
     .links a[onclick] { display: none !important; }
-    .stage, #resume { min-height: 0 !important; display: block !important; page-break-inside: avoid; padding: 6px 0 !important; }
+    .stage, #resume { min-height: 0 !important; display: block !important; page-break-inside: avoid; padding: 4px 0 !important; }
     .split, .split.two { display: block !important; }
     .reveal { opacity: 1 !important; transform: none !important; }
-    #intro .inner { text-align: left; align-items: flex-start; }
-    .photo { width: 84px; height: 84px; box-shadow: none; border-color: #bbb; }
-    #intro h1 { font-size: 28px; margin-top: 8px; }
-    .stage h2 { font-size: 19px; margin-top: 4px; }
-    .stage h2, #intro h1, .row h3, .block h4 { color: #111 !important; }
-    .eyebrow { color: #9a6300 !important; margin-bottom: 2px; }
+    .inner { max-width: 100% !important; }
+    /* header: name + photo floated tight */
+    #intro .inner { text-align: left; align-items: flex-start; display: block; }
+    .photo { width: 64px; height: 64px; box-shadow: none; border: 2px solid #bbb; float: right; margin: 0 0 8px 14px; }
+    #intro h1 { font-size: 24px; margin-top: 0; color: #111 !important; }
+    #intro .role { font-size: 13px; color: #333 !important; margin-top: 2px; }
+    #intro .loc { font-size: 11px; color: #555 !important; }
+    #intro .bio { font-size: 11px; color: #222 !important; margin-top: 6px; max-width: 100%; }
+    #intro .links { margin-top: 8px; }
+    .links a { padding: 0; border: none; font-size: 11px; margin-right: 16px; color: #111 !important; }
+    /* experience: tight */
+    .stage h2 { font-size: 15px; margin-top: 2px; color: #111 !important; line-height: 1.2; }
+    .stage .org { font-size: 12px; }
+    .stage ul { margin: 4px 0 0 16px; }
+    .stage li { margin-bottom: 2px; color: #222 !important; }
+    .stage li strong { color: #111 !important; }
+    .eyebrow { color: #9a6300 !important; margin-bottom: 1px; font-size: 10px; letter-spacing: .08em; }
     .stage .org, .row .org2, .block .sub { color: #9a6300 !important; }
-    #intro .role, #intro .loc, #intro .bio, .stage li, .stage p, .block .meta { color: #222 !important; }
-    .chip { background: #fff !important; border-color: #ccc !important; color: #111 !important; }
-    .chip.muted { opacity: 1; }
-    .row, .block { background: #fff !important; border: 1px solid #e2e2e2 !important; }
-    /* avoid duplicate experience block: stages already show full detail */
+    .sec-title { margin: 12px 0 6px !important; color: #555 !important; font-size: 10px; }
+    /* chips / pills: dark text, clear border, readable */
+    .chips { gap: 5px; }
+    .chip { background: #fff !important; border: 1px solid #999 !important; color: #111 !important; padding: 3px 9px; font-size: 10.5px; opacity: 1 !important; }
+    .grid { gap: 8px; }
+    .block { background: #fff !important; border: 1px solid #ddd !important; padding: 8px 10px; }
+    .block h4 { font-size: 12px; color: #111 !important; }
+    .block .sub { font-size: 11px; }
+    .block .meta { font-size: 10px; color: #444 !important; }
+    /* drop the at-a-glance duplicate (stages already show full detail) */
     #resume .row, #resume .sec-title.exp-title { display: none !important; }
-    /* hide the contact prompt, keep footer */
-    #contact .eyebrow, #contact h2, #contact p { display: none !important; }
-    footer { color: #666 !important; }
   }
 </style>
 </head>
