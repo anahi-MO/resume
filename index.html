@@ -744,10 +744,14 @@
 
   var progress = document.getElementById('progress');
   var backtop = document.getElementById('backtop');
+  var contactEl = document.getElementById('contact');
   window.addEventListener('scroll', function () {
     var h = document.documentElement.scrollHeight - window.innerHeight;
     progress.style.width = (window.scrollY / h * 100) + '%';
-    if (backtop) backtop.classList.toggle('show', window.scrollY > 600);
+    if (backtop) {
+      var lastShowing = contactEl && contactEl.getBoundingClientRect().top < window.innerHeight * 0.6;
+      backtop.classList.toggle('show', window.scrollY > 600 && !lastShowing);
+    }
   }, { passive: true });
   if (backtop) backtop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
