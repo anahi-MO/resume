@@ -204,8 +204,12 @@
   .quickform button { background: var(--panel-hi); border: 1px solid var(--accent); color: var(--head); font-weight: 600; padding: 12px; border-radius: 12px; cursor: pointer; font-size: 14px; transition: background .15s, color .15s; }
   .quickform button:hover { background: var(--accent); color: #1a0f0c; }
   .form-or { color: var(--muted); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; margin-top: 22px; }
-  .totop { display: inline-block; margin-top: 30px; color: var(--muted); text-decoration: none; font-size: 13px; border: 1px solid var(--line); padding: 8px 16px; border-radius: 999px; transition: all .15s; }
-  .totop:hover { color: var(--ink); border-color: var(--accent); transform: translateY(-1px); }
+  #backtop { position: fixed; right: 20px; bottom: 22px; width: 44px; height: 44px; border-radius: 50%;
+    border: 1px solid var(--line); background: rgba(33,27,23,.8); backdrop-filter: blur(8px); color: var(--ink);
+    font-size: 18px; line-height: 1; cursor: pointer; z-index: 95; opacity: 0; transform: translateY(10px);
+    pointer-events: none; transition: opacity .25s, transform .25s, border-color .15s, color .15s; }
+  #backtop.show { opacity: 1; transform: none; pointer-events: auto; }
+  #backtop:hover { border-color: var(--accent); color: var(--accent); }
 
   /* RÉSUMÉ RECAP */
   #resume { min-height: 100vh; scroll-snap-align: start; padding: clamp(40px,8vw,90px) clamp(20px,6vw,60px); }
@@ -274,7 +278,7 @@
   @media print {
     @page { margin: 1.1cm; }
     body { background: #fff !important; color: #111 !important; scroll-snap-type: none; font-size: 11px; line-height: 1.4; }
-    #progress, #langbar, #dots, .scrollcue, .anim-box, #greeting, .cta, .quickform, .form-or, .lang-hint, .ai-hint,
+    #progress, #langbar, #dots, #backtop, .scrollcue, .anim-box, #greeting, .cta, .quickform, .form-or, .lang-hint, .ai-hint,
     #intro::before, #intro::after, #resume .links, #contact, footer { display: none !important; }
     .links a[onclick] { display: none !important; }
     .stage, #resume { min-height: 0 !important; display: block !important; page-break-inside: avoid; padding: 4px 0 !important; }
@@ -325,6 +329,7 @@
   <button class="lang-mini on" data-lang="en">EN</button>
 </div>
 <nav id="dots"></nav>
+<button id="backtop" aria-label="Back to top" title="Back to top">↑</button>
 
 <!-- ACT 1: LANDING -->
 <section class="stage" id="intro" data-dot="Intro">
@@ -411,10 +416,10 @@
     </div>
     <div class="anim-box reveal d2">
       <div class="chatui" aria-hidden="true">
-        <div class="msg them" data-i18n="bub.1">Hi, I have an issue 😟</div>
-        <div class="msg me" data-i18n="bub.2">On it — let's fix this 💛</div>
-        <div class="msg them" data-i18n="bub.3">Resolved — thank you!</div>
-        <div class="msg me" data-i18n="bub.4">Customer retained ✓ 5★</div>
+        <div class="msg them" data-i18n="bub.1">A client's furious 😟 how do I de-escalate?</div>
+        <div class="msg me" data-i18n="bub.2">First, validate how they feel.</div>
+        <div class="msg me" data-i18n="bub.3">Then drive the fix with empathy 💛</div>
+        <div class="msg them" data-i18n="bub.4">It worked — thank you! 🙏</div>
       </div>
     </div>
   </div></div>
@@ -607,7 +612,6 @@
       <textarea id="qmsg" rows="3" placeholder="Your message…" data-i18n-ph="c.msg"></textarea>
       <button type="submit" data-i18n="c.send">Send email →</button>
     </form>
-    <a class="totop reveal d3" href="#intro" data-i18n="c.top" onclick="event.preventDefault();window.scrollTo({top:0,behavior:'smooth'});">↑ Back to top</a>
     <footer>Built for the MOHARA hackathon · <span id="year"></span> · Made with too much coffee ☕</footer>
   </div>
 </section>
@@ -637,7 +641,7 @@
     "free.h2": "Consultora Independiente — CX y Retención",
     "free.b1": "Diseñé <strong>estrategias de servicio al cliente y retención</strong> para empresas de la industria cultural.",
     "free.b2": "Capacité a gerentes y personal de primera línea en feedback y desescalada.",
-    "bub.1": "Hola, tengo un problema 😟", "bub.2": "Enseguida — lo resolvemos 💛", "bub.3": "¡Resuelto, gracias!", "bub.4": "Cliente retenido ✓ 5★",
+    "bub.1": "Un cliente está furioso 😟 ¿cómo lo calmo?", "bub.2": "Primero, valida cómo se siente.", "bub.3": "Luego avanza con empatía 💛", "bub.4": "¡Funcionó, gracias! 🙏",
     "yam.h2": "Coordinadora y Gerente General",
     "yam.b1": "Ascendí de recepción a gerente; lideré equipos de <strong>hasta 15 personas</strong>.",
     "yam.b2": "Automaticé procesos con CRMs para operar de forma independiente de la propiedad.",
@@ -731,10 +735,13 @@
   stages.forEach(function (s) { io.observe(s); });
 
   var progress = document.getElementById('progress');
+  var backtop = document.getElementById('backtop');
   window.addEventListener('scroll', function () {
     var h = document.documentElement.scrollHeight - window.innerHeight;
     progress.style.width = (window.scrollY / h * 100) + '%';
+    if (backtop) backtop.classList.toggle('show', window.scrollY > 600);
   }, { passive: true });
+  if (backtop) backtop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
   var counted = false;
   function countTo98() {
