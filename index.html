@@ -87,16 +87,21 @@
   .ring-num .pct { font-family: "Fraunces", serif; font-size: 48px; font-weight: 700; color: var(--head); }
   .ring-num .lbl { font-size: 12px; color: var(--muted); letter-spacing: .05em; }
 
-  /* MUSIC NOTES */
-  .notes { position: relative; width: 100%; height: 200px; }
-  .note { position: absolute; bottom: 30px; font-size: 34px; color: var(--accent); opacity: .9; }
-  .stage.in .note { animation: dance 1.4s ease-in-out infinite; }
-  .note:nth-child(1){ left: 8%;  color: var(--accent);   animation-delay: 0s; }
-  .note:nth-child(2){ left: 26%; color: var(--accent-2); animation-delay: .2s; font-size: 28px; }
-  .note:nth-child(3){ left: 44%; color: var(--accent);   animation-delay: .45s; font-size: 40px; }
-  .note:nth-child(4){ left: 62%; color: var(--accent-2); animation-delay: .15s; font-size: 30px; }
-  .note:nth-child(5){ left: 80%; color: var(--accent);   animation-delay: .35s; font-size: 36px; }
-  @keyframes dance { 0%,100%{ transform: translateY(0) rotate(-8deg); } 50%{ transform: translateY(-34px) rotate(8deg); } }
+  /* PIANO (Yamaha) — self-playing keys + floating notes */
+  .piano-wrap { position: relative; width: 100%; max-width: 300px; height: 200px; margin: 0 auto; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
+  .floaters { position: absolute; left: 0; right: 0; top: 0; bottom: 96px; pointer-events: none; }
+  .floaters .note { position: absolute; bottom: 0; opacity: 0; }
+  .stage.in .floaters .note { animation: floatUp 2.8s ease-in infinite; }
+  .floaters .note:nth-child(1){ left: 16%; color: var(--accent);   font-size: 30px; animation-delay: .2s; }
+  .floaters .note:nth-child(2){ left: 40%; color: var(--accent-2); font-size: 24px; animation-delay: 1.1s; }
+  .floaters .note:nth-child(3){ left: 60%; color: var(--accent);   font-size: 34px; animation-delay: 1.8s; }
+  .floaters .note:nth-child(4){ left: 80%; color: var(--accent-2); font-size: 26px; animation-delay: .7s; }
+  @keyframes floatUp { 0%{ opacity: 0; transform: translateY(0) rotate(-6deg); } 15%{ opacity: 1; } 80%{ opacity: 1; } 100%{ opacity: 0; transform: translateY(-130px) rotate(12deg); } }
+  .keys { display: flex; position: relative; height: 92px; filter: drop-shadow(0 12px 22px rgba(0,0,0,.4)); }
+  .key.white { width: 28px; height: 92px; background: linear-gradient(#fff, #ece6e0); border: 1px solid #b7aea6; border-radius: 0 0 5px 5px; margin-right: -1px; }
+  .key.black { position: absolute; top: 0; width: 18px; height: 56px; background: linear-gradient(#332a25, #0c0a09); border-radius: 0 0 4px 4px; z-index: 2; }
+  .stage.in .key { animation: press 2s ease-in-out infinite; }
+  @keyframes press { 0%, 100% { transform: translateY(0); filter: brightness(1); } 8% { transform: translateY(4px); filter: brightness(.82); } 22% { transform: translateY(0); filter: brightness(1); } }
 
   /* CX CHAT — messages appear in sequence and stay readable */
   .chatui { width: 100%; max-width: 300px; margin: 0 auto; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 16px 40px rgba(0,0,0,.35); }
@@ -120,6 +125,69 @@
   #typed::after { content: "▋"; color: var(--accent); animation: blink 1s steps(1) infinite; }
   @keyframes blink { 50%{ opacity: 0; } }
   .ai-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .ai-hint { color: var(--muted); font-size: 12px; margin-top: 12px; }
+  .aichip { cursor: pointer; font: inherit; font-size: 14px; }
+  .aichip:hover { border-color: var(--accent); }
+  .aichip.on { background: var(--accent); color: #1a0f0c; border-color: var(--accent); font-weight: 600; }
+
+  /* AI demo stage — one panel shown at a time */
+  .demo-stage { position: relative; width: 100%; min-height: 190px; display: flex; align-items: center; justify-content: center; }
+  .demo { display: none; width: 100%; justify-content: center; }
+  .demo.on { display: flex; }
+
+  /* chat card (Claude / ChatGPT) */
+  .chatcard { width: 100%; max-width: 300px; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 14px; box-shadow: 0 16px 40px rgba(0,0,0,.35); }
+  .cc-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--head); margin-bottom: 12px; }
+  .ava { width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; font-size: 12px; font-weight: 700; }
+  .ava.claude { background: var(--accent); color: #1a0f0c; }
+  .ava.gpt { background: #19c37d; color: #fff; border-radius: 50%; }
+  .cc-msg { max-width: 88%; padding: 8px 12px; border-radius: 14px; font-size: 12.5px; margin-bottom: 8px; opacity: 0; transform: translateY(6px); }
+  .cc-msg.me { margin-left: auto; background: var(--panel-hi); border: 1px solid var(--line); border-bottom-right-radius: 4px; color: var(--ink); }
+  .cc-msg.bot { background: var(--accent); color: #1a0f0c; border-bottom-left-radius: 4px; }
+  .cc-msg.bot.gptmsg { background: #19c37d; color: #04241a; }
+  .demo.play .cc-msg.me { animation: msgIn .4s ease .3s forwards; }
+  .demo.play .cc-msg.bot { animation: msgIn .4s ease 1s forwards; }
+  .cc-bot-inner { display: grid; }
+  .cc-bot-inner > * { grid-area: 1 / 1; }
+  .cc-think { display: inline-flex; gap: 4px; align-items: center; }
+  .cc-think i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .4; }
+  .demo.play .cc-msg.bot .cc-think i { animation: blinkdot 1s infinite; }
+  .demo.play .cc-msg.bot .cc-think i:nth-child(2){ animation-delay: .2s; }
+  .demo.play .cc-msg.bot .cc-think i:nth-child(3){ animation-delay: .4s; }
+  @keyframes blinkdot { 0%,100%{ opacity: .3; } 50%{ opacity: 1; } }
+  .cc-answer { opacity: 0; }
+  .demo.play .cc-msg.bot .cc-think { animation: crossOut 3.2s forwards; }
+  .demo.play .cc-msg.bot .cc-answer { animation: crossIn 3.2s forwards; }
+  @keyframes crossOut { 0%,60%{ opacity: 1; } 75%,100%{ opacity: 0; } }
+  @keyframes crossIn { 0%,68%{ opacity: 0; } 85%,100%{ opacity: 1; } }
+
+  /* mini chart (analytics) */
+  .mini-chart { width: 100%; max-width: 300px; }
+  .mc-bar { fill: url(#grad); transform: scaleY(0); transform-box: fill-box; transform-origin: bottom; }
+  .demo.play .mc-bar { animation: growBar .7s cubic-bezier(.2,.8,.2,1) forwards; }
+  .demo.play .mc-bar:nth-child(1){ animation-delay: .1s; }
+  .demo.play .mc-bar:nth-child(2){ animation-delay: .2s; }
+  .demo.play .mc-bar:nth-child(3){ animation-delay: .3s; }
+  .demo.play .mc-bar:nth-child(4){ animation-delay: .4s; }
+  .demo.play .mc-bar:nth-child(5){ animation-delay: .5s; }
+  @keyframes growBar { to { transform: scaleY(1); } }
+  .mc-line { stroke: var(--head); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 320; stroke-dashoffset: 320; }
+  .demo.play .mc-line { animation: draw 1s ease .6s forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+
+  /* flow (automation) */
+  .flow { display: flex; align-items: center; width: 100%; max-width: 300px; }
+  .fnode { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 8px 11px; font-size: 12px; font-weight: 600; color: var(--head); white-space: nowrap; opacity: 0; transform: scale(.85); }
+  .demo.play .fnode { animation: pop .4s ease forwards; }
+  .demo.play .fnode:nth-child(1){ animation-delay: .1s; }
+  .demo.play .fnode:nth-child(3){ animation-delay: .5s; }
+  .demo.play .fnode:nth-child(5){ animation-delay: .9s; }
+  @keyframes pop { to { opacity: 1; transform: scale(1); } }
+  .fconn { position: relative; flex: 1; height: 2px; background: var(--line); }
+  .fpulse { position: absolute; top: 50%; left: 0; width: 8px; height: 8px; margin-top: -4px; border-radius: 50%; background: var(--accent); opacity: 0; }
+  .demo.play .fconn:nth-child(2) .fpulse { animation: travel 1.4s ease-in-out 1.1s infinite; }
+  .demo.play .fconn:nth-child(4) .fpulse { animation: travel 1.4s ease-in-out 1.5s infinite; }
+  @keyframes travel { 0%{ left: 0; opacity: 0; } 15%{ opacity: 1; } 85%{ opacity: 1; } 100%{ left: 100%; opacity: 0; } }
 
   /* CONTACT */
   .cta { display: inline-block; margin-top: 26px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #1a0f0c; font-weight: 600; text-decoration: none; padding: 15px 30px; border-radius: 999px; font-size: 16px; transition: transform .15s, box-shadow .15s; box-shadow: 0 12px 32px rgba(244,120,155,.28); }
@@ -177,7 +245,7 @@
   @media print {
     @page { margin: 1.1cm; }
     body { background: #fff !important; color: #111 !important; scroll-snap-type: none; font-size: 11px; line-height: 1.4; }
-    #progress, #langbar, #dots, .scrollcue, .anim-box, #greeting, .cta, .quickform, .form-or, .lang-hint,
+    #progress, #langbar, #dots, .scrollcue, .anim-box, #greeting, .cta, .quickform, .form-or, .lang-hint, .ai-hint,
     #intro::before, #intro::after, #resume .links, #contact, footer { display: none !important; }
     .links a[onclick] { display: none !important; }
     .stage, #resume { min-height: 0 !important; display: block !important; page-break-inside: avoid; padding: 4px 0 !important; }
@@ -331,8 +399,25 @@
       </ul>
     </div>
     <div class="anim-box reveal d2">
-      <div class="notes" aria-hidden="true">
-        <span class="note">♪</span><span class="note">♫</span><span class="note">♩</span><span class="note">♬</span><span class="note">♪</span>
+      <div class="piano-wrap" aria-hidden="true">
+        <div class="floaters">
+          <span class="note">♪</span><span class="note">♫</span><span class="note">♩</span><span class="note">♬</span>
+        </div>
+        <div class="keys">
+          <div class="key white" style="animation-delay:0s"></div>
+          <div class="key white" style="animation-delay:.5s"></div>
+          <div class="key white" style="animation-delay:.2s"></div>
+          <div class="key white" style="animation-delay:.9s"></div>
+          <div class="key white" style="animation-delay:.35s"></div>
+          <div class="key white" style="animation-delay:1.1s"></div>
+          <div class="key white" style="animation-delay:.65s"></div>
+          <div class="key white" style="animation-delay:.15s"></div>
+          <div class="key black" style="left:20px;  animation-delay:.5s"></div>
+          <div class="key black" style="left:48px;  animation-delay:.9s"></div>
+          <div class="key black" style="left:104px; animation-delay:1.1s"></div>
+          <div class="key black" style="left:132px; animation-delay:.15s"></div>
+          <div class="key black" style="left:160px; animation-delay:.65s"></div>
+        </div>
       </div>
     </div>
   </div></div>
@@ -349,17 +434,62 @@
         analyze data, prototype ideas, and automate the busywork. AI is part of how I get from question to answer.
       </p>
       <div class="ai-tools reveal d3">
-        <span class="chip key">Claude Code</span>
-        <span class="chip">Claude</span>
-        <span class="chip">ChatGPT</span>
-        <span class="chip" data-i18n="ai.t4">AI-assisted analytics</span>
-        <span class="chip" data-i18n="ai.t5">Prompting &amp; automation</span>
+        <button type="button" class="chip key aichip on" data-demo="claudecode">Claude Code</button>
+        <button type="button" class="chip aichip" data-demo="claude">Claude</button>
+        <button type="button" class="chip aichip" data-demo="chatgpt">ChatGPT</button>
+        <button type="button" class="chip aichip" data-demo="analytics" data-i18n="ai.t4">AI-assisted analytics</button>
+        <button type="button" class="chip aichip" data-demo="automation" data-i18n="ai.t5">Prompting &amp; automation</button>
       </div>
+      <div class="ai-hint reveal d3" data-i18n="ai.hint">↑ Tap a tool to see it in action</div>
     </div>
     <div class="anim-box reveal d2">
-      <div class="term" aria-hidden="true">
-        <div class="term-bar"><i></i><i></i><i></i></div>
-        <div class="term-body"><span id="typed"></span></div>
+      <div class="demo-stage" aria-hidden="true">
+
+        <div class="demo on" data-demo="claudecode">
+          <div class="term">
+            <div class="term-bar"><i></i><i></i><i></i></div>
+            <div class="term-body"><span id="typed"></span></div>
+          </div>
+        </div>
+
+        <div class="demo" data-demo="claude">
+          <div class="chatcard">
+            <div class="cc-head"><span class="ava claude">✦</span> Claude</div>
+            <div class="cc-msg me">Map this user journey for me</div>
+            <div class="cc-msg bot"><span class="cc-bot-inner"><span class="cc-think"><i></i><i></i><i></i></span><span class="cc-answer">Here are the 3 key drop-off points →</span></span></div>
+          </div>
+        </div>
+
+        <div class="demo" data-demo="chatgpt">
+          <div class="chatcard">
+            <div class="cc-head"><span class="ava gpt">G</span> ChatGPT</div>
+            <div class="cc-msg me">Draft a churn survey</div>
+            <div class="cc-msg bot gptmsg"><span class="cc-bot-inner"><span class="cc-think"><i></i><i></i><i></i></span><span class="cc-answer">Done — 5 questions, ready to send ✓</span></span></div>
+          </div>
+        </div>
+
+        <div class="demo" data-demo="analytics">
+          <svg class="mini-chart" viewBox="0 0 240 150">
+            <rect class="mc-bar" x="20"  y="45"  width="26" height="80"/>
+            <rect class="mc-bar" x="58"  y="72"  width="26" height="53"/>
+            <rect class="mc-bar" x="96"  y="30"  width="26" height="95"/>
+            <rect class="mc-bar" x="134" y="58"  width="26" height="67"/>
+            <rect class="mc-bar" x="172" y="18"  width="26" height="107"/>
+            <polyline class="mc-line" points="33,58 71,85 109,42 147,68 185,30" fill="none"/>
+            <line x1="12" y1="125" x2="216" y2="125" stroke="var(--line)" stroke-width="2"/>
+          </svg>
+        </div>
+
+        <div class="demo" data-demo="automation">
+          <div class="flow">
+            <div class="fnode">Prompt</div>
+            <div class="fconn"><span class="fpulse"></span></div>
+            <div class="fnode">AI</div>
+            <div class="fconn"><span class="fpulse"></span></div>
+            <div class="fnode">Run ⚙</div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div></div>
@@ -468,6 +598,7 @@
     "ai.h2": "Construyo con IA",
     "ai.p": "Uso <strong style=\"color:var(--head)\">Claude Code</strong> y otras herramientas de IA a diario — para entregar más rápido, analizar datos, prototipar ideas y automatizar el trabajo repetitivo. La IA es parte de cómo paso de la pregunta a la respuesta.",
     "ai.t4": "Analítica asistida por IA", "ai.t5": "Prompting y automatización",
+    "ai.hint": "↑ Toca una herramienta para verla en acción",
     "res.exp": "Experiencia — de un vistazo",
     "res.work": "Con qué trabajo",
     "res.edu": "Educación",
@@ -545,7 +676,7 @@
         e.target.classList.add('in');
         dotBtns.forEach(function (d, i) { d.classList.toggle('on', i === idx); });
         if (e.target.querySelector('#pct')) countTo98();
-        if (e.target.querySelector('#typed')) typeTerminal();
+        if (e.target.querySelector('.demo-stage')) kickAI();
       }
     });
   }, { threshold: 0.5 });
@@ -564,10 +695,12 @@
     var t = setInterval(function () { n++; el.textContent = n + '%'; if (n >= 98) clearInterval(t); }, 16);
   }
 
-  var typedOnce = false;
-  function typeTerminal() {
-    if (typedOnce) return; typedOnce = true;
+  var termTimer = null;
+  function runTerminal() {
     var el = document.getElementById('typed');
+    if (!el) return;
+    if (termTimer) clearTimeout(termTimer);
+    el.innerHTML = '';
     var lines = [ { t: '$ claude code', c: 'p' }, { t: '> analyzing user journeys…', c: 'g' }, { t: '> shipping faster ✨', c: '' }, { t: '$ ', c: 'p' } ];
     var li = 0, ci = 0;
     (function step() {
@@ -576,9 +709,29 @@
       if (ci === 0) { var s = document.createElement('span'); if (line.c) s.className = line.c; s.setAttribute('data-l', li); el.appendChild(s); }
       var sp = el.querySelector('[data-l="' + li + '"]');
       sp.textContent += line.t.charAt(ci); ci++;
-      if (ci <= line.t.length) { setTimeout(step, 45); }
-      else { el.appendChild(document.createElement('br')); li++; ci = 0; setTimeout(step, 380); }
+      if (ci <= line.t.length) { termTimer = setTimeout(step, 45); }
+      else { el.appendChild(document.createElement('br')); li++; ci = 0; termTimer = setTimeout(step, 380); }
     })();
+  }
+
+  // AI demos: each tool chip swaps the right-side animation
+  function activate(name) {
+    document.querySelectorAll('.aichip').forEach(function (c) { c.classList.toggle('on', c.dataset.demo === name); });
+    document.querySelectorAll('.demo').forEach(function (d) {
+      var on = d.dataset.demo === name;
+      d.classList.toggle('on', on);
+      d.classList.remove('play');
+      if (on) { void d.offsetWidth; d.classList.add('play'); if (name === 'claudecode') runTerminal(); }
+    });
+  }
+  document.querySelectorAll('.aichip').forEach(function (c) {
+    c.addEventListener('click', function () { activate(c.dataset.demo); });
+  });
+  var aiKicked = false;
+  function kickAI() {
+    if (aiKicked) return; aiKicked = true;
+    var active = document.querySelector('.aichip.on');
+    activate(active ? active.dataset.demo : 'claudecode');
   }
 
   /* ===== contact form → email ===== */
