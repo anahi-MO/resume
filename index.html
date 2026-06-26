@@ -82,15 +82,16 @@
   .bar span { position: absolute; top: -22px; left: -10px; right: -10px; text-align: center; font-size: 11px; color: var(--muted); opacity: 0; transition: opacity .4s ease 1.4s; white-space: nowrap; }
   .stage.in .bar span { opacity: 1; }
 
-  /* RING */
-  .ring-wrap { position: relative; width: 200px; height: 200px; }
-  .ring-wrap svg { transform: rotate(-90deg); }
-  .ring-bg { fill: none; stroke: var(--line); stroke-width: 14; }
-  .ring-fg { fill: none; stroke: url(#grad); stroke-width: 14; stroke-linecap: round; stroke-dasharray: 534; stroke-dashoffset: 534; transition: stroke-dashoffset 1.6s cubic-bezier(.2,.8,.2,1); }
-  .stage.in .ring-fg { stroke-dashoffset: var(--off); }
-  .ring-num { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-  .ring-num .pct { font-family: "Fraunces", serif; font-size: 48px; font-weight: 700; color: var(--head); }
-  .ring-num .lbl { font-size: 12px; color: var(--muted); letter-spacing: .05em; }
+  /* GLOBE (Propio) — multilingual greetings emanating */
+  .globe-wrap { position: relative; width: 100%; max-width: 260px; height: 220px; margin: 0 auto; }
+  .globe { position: absolute; left: 50%; top: 50%; width: 84px; height: 84px; margin: -42px 0 0 -42px; border-radius: 50%; display: grid; place-items: center; font-size: 58px; line-height: 1; filter: drop-shadow(0 0 18px rgba(110,168,254,.35)); }
+  .stage.in .globe { animation: globeFloat 3.4s ease-in-out infinite; }
+  @keyframes globeFloat { 0%,100%{ transform: translateY(0) rotate(-5deg); } 50%{ transform: translateY(-9px) rotate(5deg); } }
+  .gword { position: absolute; transform: translate(-50%, -50%); font-size: 13px; color: var(--ink); background: var(--panel); border: 1px solid var(--line); padding: 3px 10px; border-radius: 999px; white-space: nowrap; opacity: 0; }
+  .gword:nth-child(odd) { border-color: rgba(244,120,155,.5); }
+  .gword:nth-child(even) { border-color: rgba(240,179,94,.5); }
+  .stage.in .gword { animation: emanate 4.2s ease-in-out infinite; }
+  @keyframes emanate { 0%{ opacity: 0; transform: translate(-50%,-50%) scale(.5); } 18%{ opacity: 1; transform: translate(-50%,-50%) scale(1); } 70%{ opacity: 1; } 100%{ opacity: 0; transform: translate(-50%,-50%) scale(1.05); } }
 
   /* PIANO (Yamaha) — self-playing keys + floating notes */
   .piano-wrap { position: relative; width: 100%; max-width: 300px; height: 200px; margin: 0 auto; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
@@ -390,13 +391,16 @@
       </ul>
     </div>
     <div class="anim-box reveal d2">
-      <div class="ring-wrap" aria-hidden="true">
-        <svg width="200" height="200" viewBox="0 0 200 200">
-          <defs><linearGradient id="grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f4789b"/><stop offset="100%" stop-color="#f0b35e"/></linearGradient></defs>
-          <circle class="ring-bg" cx="100" cy="100" r="85"/>
-          <circle class="ring-fg" cx="100" cy="100" r="85" style="--off:11"/>
-        </svg>
-        <div class="ring-num"><span class="pct" id="pct">0%</span><span class="lbl" data-i18n="pro.ringlbl">sales conversion</span></div>
+      <div class="globe-wrap" aria-hidden="true">
+        <span class="globe">🌐</span>
+        <span class="gword" style="left:218px; top:110px; animation-delay:0s">Hello</span>
+        <span class="gword" style="left:192px; top:172px; animation-delay:.5s">Hola</span>
+        <span class="gword" style="left:130px; top:198px; animation-delay:1s">Bonjour</span>
+        <span class="gword" style="left:68px;  top:172px; animation-delay:1.5s">こんにちは</span>
+        <span class="gword" style="left:42px;  top:110px; animation-delay:2s">مرحبا</span>
+        <span class="gword" style="left:68px;  top:48px;  animation-delay:2.5s">Olá</span>
+        <span class="gword" style="left:130px; top:22px;  animation-delay:3s">你好</span>
+        <span class="gword" style="left:192px; top:48px;  animation-delay:3.5s">Ciao</span>
       </div>
     </div>
   </div></div>
@@ -510,6 +514,7 @@
 
         <div class="demo" data-demo="analytics">
           <svg class="mini-chart" viewBox="0 0 240 150">
+            <defs><linearGradient id="grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f4789b"/><stop offset="100%" stop-color="#f0b35e"/></linearGradient></defs>
             <rect class="mc-bar" x="20"  y="45"  width="26" height="80"/>
             <rect class="mc-bar" x="58"  y="72"  width="26" height="53"/>
             <rect class="mc-bar" x="96"  y="30"  width="26" height="95"/>
