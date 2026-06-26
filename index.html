@@ -213,10 +213,11 @@
   .quickform button { background: var(--panel-hi); border: 1px solid var(--accent); color: var(--head); font-weight: 600; padding: 12px; border-radius: 12px; cursor: pointer; font-size: 14px; transition: background .15s, color .15s; }
   .quickform button:hover { background: var(--accent); color: #1a0f0c; }
   .form-or { color: var(--muted); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; margin-top: 22px; }
-  #backtop { position: fixed; right: 20px; bottom: 22px; width: 44px; height: 44px; border-radius: 50%;
+  #backtop { position: fixed; right: 20px; bottom: 22px; display: flex; align-items: center; gap: 8px;
     border: 1px solid var(--line); background: rgba(33,27,23,.8); backdrop-filter: blur(8px); color: var(--ink);
-    font-size: 18px; line-height: 1; cursor: pointer; z-index: 95; opacity: 0; transform: translateY(10px);
-    pointer-events: none; transition: opacity .25s, transform .25s, border-color .15s, color .15s; }
+    font: inherit; font-size: 13px; line-height: 1; padding: 9px 15px; border-radius: 999px; cursor: pointer; z-index: 95;
+    opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity .25s, transform .25s, border-color .15s, color .15s; }
+  #backtop .bt-arrow { font-size: 16px; }
   #backtop.show { opacity: 1; transform: none; pointer-events: auto; }
   #backtop:hover { border-color: var(--accent); color: var(--accent); }
 
@@ -335,7 +336,7 @@
   <button class="lang-mini on" data-lang="en">EN</button>
 </div>
 <nav id="dots"></nav>
-<button id="backtop" aria-label="Back to top" title="Back to top">↑</button>
+<button id="backtop" aria-label="Back to top" title="Back to top"><span data-i18n="c.top">Back to top</span><span class="bt-arrow" aria-hidden="true">↑</span></button>
 
 <!-- ACT 1: LANDING -->
 <section class="stage" id="intro" data-dot="Intro">
@@ -673,7 +674,7 @@
     "c.cta": "Quiero conversar 👋",
     "c.or": "— o —",
     "c.send": "Enviar correo →",
-    "c.name": "Tu nombre", "c.msg": "Tu mensaje…", "c.top": "↑ Volver arriba",
+    "c.name": "Tu nombre", "c.msg": "Tu mensaje…", "c.top": "Volver arriba",
     "res.print": "⤓ Imprimir / PDF"
   } };
   var GREET = { en: 'Hi! Nice to meet you <span class="wave">👋</span>', es: '¡Hola! Mucho gusto <span class="wave">👋</span>' };
