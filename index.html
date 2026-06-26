@@ -23,6 +23,10 @@
   }
   #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0;
     background: linear-gradient(90deg, var(--accent), var(--accent-2)); z-index: 100; transition: width .1s linear; }
+  #langbar { position: fixed; top: 14px; right: 16px; z-index: 100; display: flex; gap: 2px; background: rgba(33,27,23,.7); backdrop-filter: blur(8px); border: 1px solid var(--line); border-radius: 999px; padding: 3px; }
+  .lang-mini { border: none; background: transparent; color: var(--muted); font: inherit; font-size: 12px; font-weight: 600; letter-spacing: .04em; padding: 5px 12px; border-radius: 999px; cursor: pointer; transition: all .15s; }
+  .lang-mini:hover { color: var(--ink); }
+  .lang-mini.on { background: var(--accent); color: #1a0f0c; }
   #dots { position: fixed; right: 18px; top: 50%; transform: translateY(-50%); z-index: 90; display: flex; flex-direction: column; gap: 12px; }
   #dots button { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--muted); background: transparent; cursor: pointer; padding: 0; transition: all .2s; }
   #dots button.on { background: var(--accent); border-color: var(--accent); transform: scale(1.25); }
@@ -174,7 +178,7 @@
   /* ============ PRINT: clean, readable, v1-style document ============ */
   @media print {
     body { background: #fff !important; color: #111 !important; scroll-snap-type: none; }
-    #progress, #dots, .scrollcue, .anim-box, #greeting, .cta, .quickform, .form-or, .lang-hint,
+    #progress, #langbar, #dots, .scrollcue, .anim-box, #greeting, .cta, .quickform, .form-or, .lang-hint,
     #intro::before, #intro::after { display: none !important; }
     .links a[onclick] { display: none !important; }
     .stage, #resume { min-height: 0 !important; display: block !important; page-break-inside: avoid; padding: 6px 0 !important; }
@@ -201,6 +205,10 @@
 </head>
 <body>
 <div id="progress"></div>
+<div id="langbar" aria-label="Language switcher">
+  <button class="lang-mini" data-lang="es">ES</button>
+  <button class="lang-mini on" data-lang="en">EN</button>
+</div>
 <nav id="dots"></nav>
 
 <!-- ACT 1: LANDING -->
@@ -485,7 +493,7 @@
       var k = el.getAttribute('data-i18n-ph');
       el.placeholder = (d && d[k] != null) ? d[k] : el.dataset.i18nPhSrc;
     });
-    document.querySelectorAll('.lang-btn').forEach(function (b) { b.classList.toggle('on', b.dataset.lang === lang); });
+    document.querySelectorAll('[data-lang]').forEach(function (b) { b.classList.toggle('on', b.dataset.lang === lang); });
   }
   function showGreeting(lang) {
     var g = document.getElementById('greeting');
@@ -501,6 +509,10 @@
       showGreeting(lang);
       document.getElementById('greeting').scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
+  });
+  // top toggle: switch instantly, no scroll
+  document.querySelectorAll('.lang-mini').forEach(function (b) {
+    b.addEventListener('click', function () { setLang(b.dataset.lang); });
   });
 
   /* ===== scroll behaviors ===== */
