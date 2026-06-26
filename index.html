@@ -119,7 +119,15 @@
   .msg:nth-child(2){ animation-delay: .9s; }
   .msg:nth-child(3){ animation-delay: 1.6s; }
   .msg:nth-child(4){ animation-delay: 2.3s; }
+  .msg:nth-child(5){ animation-delay: 3.1s; }
   @keyframes msgIn { to { opacity: 1; transform: none; } }
+  /* "they're typing…" indicator */
+  .msg.typing { padding: 11px 14px; }
+  .tdots { display: inline-flex; gap: 5px; }
+  .tdots i { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); opacity: .4; }
+  .stage.in .msg.typing .tdots i { animation: blinkdot 1.1s infinite; }
+  .stage.in .msg.typing .tdots i:nth-child(2){ animation-delay: .2s; }
+  .stage.in .msg.typing .tdots i:nth-child(3){ animation-delay: .4s; }
 
   /* TERMINAL */
   .term { width: 100%; max-width: 380px; background: #0c0a09; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,.4); }
@@ -419,8 +427,9 @@
       <div class="chatui" aria-hidden="true">
         <div class="msg them" data-i18n="bub.1">A client's furious 😟 how do I de-escalate?</div>
         <div class="msg me" data-i18n="bub.2">First, validate how they feel.</div>
-        <div class="msg me" data-i18n="bub.3">Then drive the fix with empathy 💛</div>
-        <div class="msg them" data-i18n="bub.4">It worked — thank you! 🙏</div>
+        <div class="msg me" data-i18n="bub.3">Let's drive the fix with empathy 💛</div>
+        <div class="msg me" data-i18n="bub.4">What's the issue?</div>
+        <div class="msg them typing"><span class="tdots"><i></i><i></i><i></i></span></div>
       </div>
     </div>
   </div></div>
@@ -637,7 +646,7 @@
     "free.h2": "Consultora Independiente — CX y Retención",
     "free.b1": "Diseñé <strong>estrategias de servicio al cliente y retención</strong> para empresas de la industria cultural.",
     "free.b2": "Capacité a gerentes y personal de primera línea en feedback y desescalada.",
-    "bub.1": "Un cliente está furioso 😟 ¿cómo lo calmo?", "bub.2": "Primero, valida cómo se siente.", "bub.3": "Luego avanza con empatía 💛", "bub.4": "¡Funcionó, gracias! 🙏",
+    "bub.1": "Un cliente está furioso 😟 ¿cómo lo calmo?", "bub.2": "Primero, valida cómo se siente.", "bub.3": "Resolvámoslo con empatía 💛", "bub.4": "¿Cuál es el problema?",
     "yam.h2": "Coordinadora y Gerente General",
     "yam.b1": "Ascendí de recepción a gerente; lideré equipos de <strong>hasta 15 personas</strong>.",
     "yam.b2": "Automaticé procesos con CRMs para operar de forma independiente de la propiedad.",
