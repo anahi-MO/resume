@@ -12,6 +12,7 @@
   :root {
     --bg: #0f1115;
     --panel: #161922;
+    --panel-hi: #1c2030;
     --ink: #e9ecf1;
     --muted: #9aa3b2;
     --line: #262b38;
@@ -29,10 +30,10 @@
     -webkit-font-smoothing: antialiased;
     padding: clamp(20px, 6vw, 80px) clamp(16px, 5vw, 40px);
   }
-  .wrap { max-width: 860px; margin: 0 auto; }
+  .wrap { max-width: 820px; margin: 0 auto; }
 
   /* HERO */
-  header { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; margin-bottom: 56px; }
+  header { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; margin-bottom: 64px; }
   .avatar {
     width: 92px; height: 92px; border-radius: 50%;
     background: linear-gradient(135deg, var(--accent), var(--accent-2));
@@ -47,39 +48,89 @@
   .links a {
     color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 500;
     border: 1px solid var(--line); padding: 7px 14px; border-radius: 999px;
-    transition: border-color .15s, transform .15s;
+    transition: border-color .15s, transform .15s, background .15s;
   }
-  .links a:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .links a:hover { border-color: var(--accent); transform: translateY(-1px); background: var(--panel); }
 
-  section { margin-bottom: 44px; }
+  section { margin-bottom: 56px; }
   .sec-title {
     font-size: 13px; text-transform: uppercase; letter-spacing: .12em;
-    color: var(--muted); margin-bottom: 18px; font-weight: 600;
+    color: var(--muted); margin-bottom: 8px; font-weight: 600;
+  }
+  .sec-hint { font-size: 13px; color: var(--muted); opacity: .7; margin-bottom: 26px; }
+
+  /* ===== TIMELINE ===== */
+  .timeline { position: relative; padding-left: 38px; }
+  /* the track */
+  .timeline::before {
+    content: ""; position: absolute; left: 11px; top: 6px; bottom: 6px;
+    width: 2px; background: var(--line); border-radius: 2px;
+  }
+  /* the fill that grows on scroll */
+  .timeline .fill {
+    position: absolute; left: 11px; top: 6px; width: 2px; border-radius: 2px;
+    background: linear-gradient(var(--accent), var(--accent-2));
+    height: 0; transition: height .15s linear;
+  }
+
+  .node { position: relative; margin-bottom: 18px; opacity: 0; transform: translateY(16px); transition: opacity .5s, transform .5s; }
+  .node.in { opacity: 1; transform: none; }
+
+  .dot {
+    position: absolute; left: -32px; top: 22px;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--bg); border: 2px solid var(--line);
+    transition: border-color .2s, box-shadow .2s, transform .2s;
+    z-index: 2;
+  }
+  .node.active .dot, .node:hover .dot {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 5px rgba(255,122,89,.15);
+    transform: scale(1.1);
   }
 
   .card {
     background: var(--panel); border: 1px solid var(--line);
-    border-radius: var(--radius); padding: 22px 24px; margin-bottom: 14px;
+    border-radius: var(--radius); overflow: hidden;
+    transition: border-color .2s, background .2s;
   }
-  .card .top { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-  .card h3 { font-size: 18px; font-weight: 600; }
-  .card .org { color: var(--accent-2); font-weight: 500; }
-  .card .when { color: var(--muted); font-size: 14px; white-space: nowrap; }
-  .card ul { margin: 12px 0 0 18px; color: var(--muted); }
-  .card li { margin-bottom: 6px; }
+  .node:hover .card { border-color: #343b4d; }
+  .node.active .card { border-color: var(--accent); background: var(--panel-hi); }
 
+  .card-head {
+    display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    padding: 18px 22px; cursor: pointer; user-select: none;
+  }
+  .card-head h3 { font-size: 18px; font-weight: 600; }
+  .card-head .org { color: var(--accent-2); font-weight: 500; font-size: 15px; }
+  .when { color: var(--muted); font-size: 13px; white-space: nowrap; display: flex; align-items: center; gap: 8px; }
+  .chev { transition: transform .25s; font-size: 12px; color: var(--muted); }
+  .node.active .chev { transform: rotate(180deg); }
+
+  /* expandable body */
+  .card-body { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+  .node.active .card-body { max-height: 320px; }
+  .card-body-inner { padding: 0 22px 20px; }
+  .card-body ul { margin-left: 18px; color: var(--muted); }
+  .card-body li { margin-bottom: 6px; }
+
+  /* skills */
   .skills { display: flex; flex-wrap: wrap; gap: 8px; }
   .chip {
     background: var(--panel); border: 1px solid var(--line);
     padding: 6px 13px; border-radius: 999px; font-size: 14px; color: var(--ink);
+    transition: border-color .15s, transform .15s;
   }
-  footer { color: var(--muted); font-size: 13px; text-align: center; margin-top: 40px; border-top: 1px solid var(--line); padding-top: 24px; }
-  a.inline { color: var(--accent-2); }
+  .chip:hover { border-color: var(--accent); transform: translateY(-1px); }
+
+  footer { color: var(--muted); font-size: 13px; text-align: center; margin-top: 48px; border-top: 1px solid var(--line); padding-top: 24px; }
 
   @media print {
     body { background: #fff; color: #111; padding: 24px; }
-    .card, .chip { background: #fff; border-color: #ddd; }
-    .links { display: none; }
+    .card, .chip { background: #fff !important; border-color: #ddd; }
+    .card-body { max-height: none !important; }    /* expand all for print */
+    .timeline::before, .fill, .chev, .links, .sec-hint { display: none; }
+    .node { opacity: 1 !important; transform: none !important; }
   }
 </style>
 </head>
@@ -104,35 +155,64 @@
   </header>
 
   <section>
-    <div class="sec-title">Experience</div>
+    <div class="sec-title">My Journey</div>
+    <div class="sec-hint">↓ Scroll to follow the line — click any milestone to expand it.</div>
 
-    <div class="card">
-      <div class="top">
-        <div>
-          <h3>Product Manager</h3>
-          <div class="org">MOHARA</div>
-        </div>
-        <div class="when">2025 — Present</div>
-      </div>
-      <ul>
-        <li>Lead a 0→1 product initiative — from discovery research to a stage-based product framework adopted by early teams.</li>
-        <li>Run user research and synthesis, turning interviews and feedback into prioritized roadmap decisions.</li>
-        <li>Partner with engineering and design to ship and validate features with real users. <!-- EDIT with real metrics --></li>
-      </ul>
-    </div>
+    <div class="timeline" id="timeline">
+      <div class="fill" id="fill"></div>
 
-    <div class="card">
-      <div class="top">
-        <div>
-          <h3><!-- Previous role --> Previous Role</h3>
-          <div class="org">Company</div>
+      <!-- ===== one .node per milestone. Add/remove freely. ===== -->
+      <div class="node active">
+        <div class="dot"></div>
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Product Manager</h3>
+              <div class="org">MOHARA</div>
+            </div>
+            <div class="when">2025 — Present <span class="chev">▼</span></div>
+          </div>
+          <div class="card-body"><div class="card-body-inner"><ul>
+            <li>Lead a 0→1 product initiative — from discovery research to a stage-based product framework adopted by early teams.</li>
+            <li>Run user research and synthesis, turning interviews and feedback into prioritized roadmap decisions.</li>
+            <li>Partner with engineering and design to ship and validate features with real users. <!-- EDIT: add a metric --></li>
+          </ul></div></div>
         </div>
-        <div class="when">20XX — 20XX</div>
       </div>
-      <ul>
-        <li>Add a bullet with a result and a number (revenue, retention, time saved, users).</li>
-        <li>Add a bullet about scope (team size, area you owned).</li>
-      </ul>
+
+      <div class="node">
+        <div class="dot"></div>
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Previous Role</h3>
+              <div class="org">Company</div>
+            </div>
+            <div class="when">20XX — 20XX <span class="chev">▼</span></div>
+          </div>
+          <div class="card-body"><div class="card-body-inner"><ul>
+            <li>Add a bullet with a result and a number (revenue, retention, time saved, users).</li>
+            <li>Add a bullet about scope (team size, area you owned).</li>
+          </ul></div></div>
+        </div>
+      </div>
+
+      <div class="node">
+        <div class="dot"></div>
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Degree / Program</h3>
+              <div class="org">University</div>
+            </div>
+            <div class="when">20XX <span class="chev">▼</span></div>
+          </div>
+          <div class="card-body"><div class="card-body-inner"><ul>
+            <li>Focus, honors, or a relevant project. (Optional)</li>
+          </ul></div></div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -150,24 +230,43 @@
     </div>
   </section>
 
-  <section>
-    <div class="sec-title">Education</div>
-    <div class="card">
-      <div class="top">
-        <div>
-          <h3>Degree / Program</h3>
-          <div class="org">University</div>
-        </div>
-        <div class="when">Year</div>
-      </div>
-    </div>
-  </section>
-
   <footer>
     Built for the MOHARA hackathon · <span id="year"></span> · Made with too much coffee ☕
   </footer>
 
 </div>
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // 1) Click a milestone to expand/collapse
+  document.querySelectorAll('.card-head').forEach(function (head) {
+    head.addEventListener('click', function () {
+      head.closest('.node').classList.toggle('active');
+    });
+  });
+
+  // 2) Reveal nodes as they scroll into view
+  var nodes = document.querySelectorAll('.node');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.25 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  // 3) Grow the timeline fill line as you scroll past it
+  var timeline = document.getElementById('timeline');
+  var fill = document.getElementById('fill');
+  function updateFill() {
+    var rect = timeline.getBoundingClientRect();
+    var vh = window.innerHeight;
+    var start = vh * 0.5;                       // line fills to mid-screen
+    var progress = (start - rect.top) / rect.height;
+    progress = Math.max(0, Math.min(1, progress));
+    fill.style.height = (progress * rect.height) + 'px';
+  }
+  window.addEventListener('scroll', updateFill, { passive: true });
+  window.addEventListener('resize', updateFill);
+  updateFill();
+</script>
 </body>
 </html>
